@@ -24,16 +24,16 @@ The project was developed using an Agile Scrum approach:
 - Meetings and documentation were recorded in Confluence  
 - Code and project files were managed using GitHub with commits and collaboration  
 
-## ⚙️ Features
+## Features
 - Line-following movement system  
 - Obstacle detection system  
 - Basic sensor calibration and testing  
 - Iterative debugging and improvement process  
 
-## 📈 Project Status
+## Project Status
 This project is in development and demonstrates a complete Agile workflow from planning to implementation and review.
 
-## 🧠 Learning Outcomes
+## Learning Outcomes
 - Understanding of Agile Scrum workflow  
 - Experience with Jira, Confluence, and GitHub integration  
 - Basic robotics logic using EV3 system  
