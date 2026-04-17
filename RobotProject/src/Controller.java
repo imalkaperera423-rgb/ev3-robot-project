@@ -98,6 +98,7 @@ public class Controller {
                 motors.stop();
                 //Remove this
                 avoiding = false;
+                continue; 
                 }   
             else if(avoiding == true && measuringComplete == true && obstacleTimeLeft < obstacleTimeRight){
                 motors.turnLeft();
@@ -105,25 +106,23 @@ public class Controller {
                 motors.stop();
                 //Remove this
                 avoiding = false;
+                continue; 
                 }
-            continue;   
-            }
-  
-        
-
-             //Line following 
+              
+             //Line following
+            if(avoiding == false){ 
             usThread.setPriority(3);
             lsThread.setPriority(8);
-            //Make intensities >= 0.03 and <= 0.01 respectively for real deal
-            if(SharedData.intensity >= 0.03){
+            }
+            //Make intensities >= 0.025 and <= 0.01 respectively for real deal
+            if(SharedData.intensity >= 0.02 && avoiding == false){
                 motors.turnLeft();
             }
-            else{motors.forward();}
-            if (SharedData.intensity <= 0.02){
+            if (SharedData.intensity < 0.02 && avoiding == false){
                 motors.turnRight();
             }
-            else{motors.forward();}
         }
     }
+}
 
     

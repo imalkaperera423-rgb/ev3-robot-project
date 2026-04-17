@@ -32,13 +32,13 @@ public class Motors {
     }
     public void turnLeft(){
         rightMotor.setSpeed(360);   // Set to 360 for real deal
-        leftMotor.setSpeed(180);    // Set to 90? for real deal
+        leftMotor.setSpeed(180);    // Set to 180? for real deal
         rightMotor.forward();
         leftMotor.forward();
     }
     public void turnRight(){
         leftMotor.setSpeed(360);    // Set to 360 for real deal
-        rightMotor.setSpeed(180);   // Set to 90? for real deal
+        rightMotor.setSpeed(180);   // Set to 180? for real deal
         rightMotor.forward();
         leftMotor.forward();
     }
