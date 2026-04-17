@@ -14,6 +14,7 @@ public class Controller {
         boolean measuringRight = false;
         boolean measuringStartRight = false;
         boolean measuringComplete = false;
+        boolean firstCheck = false;
 
         long measureStart = 0;
         long obstacleTimeLeft = 0;
@@ -33,7 +34,7 @@ public class Controller {
         
         while (!Button.ESCAPE.isDown()){
             //Obstacle detection
-            if(SharedData.distance <= 0.08 && avoiding == false){SharedData.obstacle = true; measuringLeft = true;}
+            if(SharedData.distance <= 0.15 && avoiding == false){SharedData.obstacle = true; measuringLeft = true;}
             else{SharedData.obstacle = false;}
 
             //Obstacle avoidance: measure left
@@ -44,11 +45,21 @@ public class Controller {
                 motors.obstacleTurnLeft();
                 measureStart = System.currentTimeMillis();
            }
-           if(SharedData.distance >= 0.5 && measuringLeft == true){
+
+           if(SharedData.distance >= 0.6 && measuringLeft == true && firstCheck == false){
+            firstCheck = true;
+            Delay.msDelay(10);
+           }
+           if(SharedData.distance < 0.6 && measuringLeft == true && firstCheck == true){
+            firstCheck = false;
+           }
+
+           if(SharedData.distance >= 0.6 && measuringLeft == true && firstCheck == true){
                     obstacleTimeLeft = System.currentTimeMillis() - measureStart;
                     motors.stop();
                     measuringStartRight = true;
                     measuringLeft = false;
+                    firstCheck = false;
             }
             
             //Measure right
@@ -57,19 +68,28 @@ public class Controller {
                 measuringStartRight = false;
                 Delay.msDelay(obstacleTimeLeft);
                 motors.stop();
-                Delay.msDelay(500);
+                Delay.msDelay(50);
                 motors.obstacleTurnRight();
                 measureStart = System.currentTimeMillis();
                 measuringRight = true;
                 }
                     
-            if(SharedData.distance >= 0.5 && measuringRight == true && measuringStartRight == false){
+            if(SharedData.distance >= 0.6 && measuringRight == true && measuringStartRight == false && firstCheck == false){
+                firstCheck = true;
+                Delay.msDelay(10);
+            }
+            if(SharedData.distance < 0.6 && measuringRight == true && measuringStartRight == false && firstCheck == true){
+                firstCheck = false;
+            }
+
+            if(SharedData.distance >= 0.6 && measuringRight == true && measuringStartRight == false && firstCheck == true){
                 obstacleTimeRight = System.currentTimeMillis() - measureStart;
                 motors.stop();
                 measuringRight = false;
                 measuringLeft = false;
                 measuringComplete = true;
-                Delay.msDelay(5000);
+                firstCheck = false;
+                Delay.msDelay(50);
                 }
                         
             if(avoiding == true && measuringComplete == true && obstacleTimeLeft >= obstacleTimeRight){
@@ -79,7 +99,7 @@ public class Controller {
                 //Remove this
                 avoiding = false;
                 }   
-            else if(avoiding == true && measuringComplete == true && obstacleTimeLeft <= obstacleTimeRight){
+            else if(avoiding == true && measuringComplete == true && obstacleTimeLeft < obstacleTimeRight){
                 motors.turnLeft();
                 Delay.msDelay(5000);
                 motors.stop();
