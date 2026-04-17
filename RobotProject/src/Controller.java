@@ -27,13 +27,13 @@ public class Controller {
         lsThread.start();
         usThread.start();
 
+        //Start delay
         Delay.msDelay(8000);
-
         motors.forward();
         
-            while (!Button.ESCAPE.isDown()){
+        while (!Button.ESCAPE.isDown()){
             //Obstacle detection
-            if(SharedData.distance <= 0.08){SharedData.obstacle = true; measuringLeft = true;}
+            if(SharedData.distance <= 0.08 && avoiding == false){SharedData.obstacle = true; measuringLeft = true;}
             else{SharedData.obstacle = false;}
 
             //Obstacle avoidance: measure left
@@ -48,39 +48,48 @@ public class Controller {
                     obstacleTimeLeft = System.currentTimeMillis() - measureStart;
                     motors.stop();
                     measuringStartRight = true;
+                    measuringLeft = false;
+            }
+            
+            //Measure right
+            if(measuringStartRight == true && avoiding == true){
+                motors.obstacleTurnRight();
+                measuringStartRight = false;
+                Delay.msDelay(obstacleTimeLeft);
+                motors.stop();
+                Delay.msDelay(500);
+                motors.obstacleTurnRight();
+                measureStart = System.currentTimeMillis();
+                measuringRight = true;
                 }
-                    //Measure right
-                    if(measuringStartRight == true && avoiding == true){
-                        motors.obstacleTurnRight();
-                        Delay.msDelay(obstacleTimeLeft);
-                        motors.stop();
-                        Delay.msDelay(500);
-                        motors.obstacleTurnRight();
-                        measureStart = System.currentTimeMillis();
-                        measuringRight = true;
-                        measuringStartRight = false;
-                    }
                     
-                    if(SharedData.distance >= 0.5 && measuringRight == true && measuringStartRight == false){
-                         obstacleTimeRight = System.currentTimeMillis() - measureStart;
-                        motors.stop();
-                        measuringRight = false;
-                        measuringLeft = false;
-                        measuringComplete = true;
-                        Delay.msDelay(500);
-                    }
+            if(SharedData.distance >= 0.5 && measuringRight == true && measuringStartRight == false){
+                obstacleTimeRight = System.currentTimeMillis() - measureStart;
+                motors.stop();
+                measuringRight = false;
+                measuringLeft = false;
+                measuringComplete = true;
+                Delay.msDelay(5000);
+                }
                         
-                    if(avoiding == true && measuringComplete == true){
-                        if(obstacleTimeLeft >= obstacleTimeRight){
-                            motors.turnRight();
-                        }
-                        else{
-                            motors.turnLeft();
-                        }
-                        continue;
-                    
-                    }
-                }    
+            if(avoiding == true && measuringComplete == true && obstacleTimeLeft >= obstacleTimeRight){
+                motors.turnRight();
+                Delay.msDelay(5000);
+                motors.stop();
+                //Remove this
+                avoiding = false;
+                }   
+            else if(avoiding == true && measuringComplete == true && obstacleTimeLeft <= obstacleTimeRight){
+                motors.turnLeft();
+                Delay.msDelay(5000);
+                motors.stop();
+                //Remove this
+                avoiding = false;
+                }
+            continue;   
+            }
+  
+        
 
              //Line following 
             usThread.setPriority(3);
@@ -95,5 +104,6 @@ public class Controller {
             }
             else{motors.forward();}
         }
-
     }
+
+    

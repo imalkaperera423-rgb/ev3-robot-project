@@ -7,6 +7,9 @@ import lejos.hardware.Button;
 import lejos.robotics.SampleProvider;
 
 public class LightSensor implements Runnable{
+
+
+
     @Override
     public void run(){
 
@@ -29,11 +32,12 @@ public class LightSensor implements Runnable{
             
                 try 
                 {
-                    Thread.sleep(100);
+                    Thread.sleep(50);
             }catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
         colorSensor.close();
     }
+
 }

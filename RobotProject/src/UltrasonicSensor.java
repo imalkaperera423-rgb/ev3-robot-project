@@ -8,8 +8,11 @@ import lejos.robotics.SampleProvider;   // allows the sensor to return the sampl
                                         // e.g., for getting distance data from sonic sensor etc
 
 public class UltrasonicSensor implements Runnable {
-@Override
-public void run(){
+
+
+
+    @Override
+    public void run(){
 
         // Creating an instance of US sensor at port 2
 
@@ -36,7 +39,7 @@ public void run(){
             
             // Refresh display every 100 ms
             try {
-                Thread.sleep(100);
+                Thread.sleep(25);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

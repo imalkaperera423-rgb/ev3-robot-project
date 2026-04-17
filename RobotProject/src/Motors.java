@@ -19,14 +19,14 @@ public class Motors {
         rightMotor.stop();
     }
     public void obstacleTurnLeft(){
-        rightMotor.setSpeed(90);   // Set to 180 for real deal
-        leftMotor.setSpeed(90);    // Set to 180 for real deal
+        rightMotor.setSpeed(45);
+        leftMotor.setSpeed(45);
         rightMotor.forward();
         leftMotor.backward();
     }
     public void obstacleTurnRight(){
-        leftMotor.setSpeed(90);    // Set to 180 for real deal
-        rightMotor.setSpeed(90);   // Set to 180 for real deal
+        leftMotor.setSpeed(45);
+        rightMotor.setSpeed(45);
         rightMotor.backward();
         leftMotor.forward();
     }
